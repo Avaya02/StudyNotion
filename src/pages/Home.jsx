@@ -5,7 +5,7 @@ import CTAButton from "../components/core/HomePage/Button"
 import HighlightText from '../components/core/HomePage/HighlightText'
 import Banner from '../assets/Images/banner.mp4'
 import CodeBlocks from '../components/core/HomePage/CodeBlocks'
-import TimelineSection from '../components/core/HomePage/TimeLine'
+import TimelineSection from '../components/core/HomePage/TimelineSection'
 import LearningLanguageSection from '../components/core/HomePage/LearningLanguageSection'
 
 
@@ -175,7 +175,7 @@ const Home = () => {
 
                 <TimelineSection />
 
-                <LearningLanguageSection />
+              <LearningLanguageSection/>
 
             </div>
 
