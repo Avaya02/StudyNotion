@@ -11,26 +11,32 @@ import { categories } from '../../services/apis'
 import { useState } from 'react'
 import {IoIosArrowDropdownCircle} from "react-icons/io"
 
-const subLinks = [
+const subLinks = [                               //this was added to test because that Usestate sublink wasnt working 
     {
-        title: "python",
-        link:"/catalog/python"
-    },
-    {
-        title: "web dev",
-        link:"/catalog/web-development"
+        title: "python",                               //this was added to test because that Usestate sublink wasnt working 
+        link:"/catalog/python"                               //this was added to test because that Usestate sublink wasnt working 
+    },                               //this was added to test because that Usestate sublink wasnt working 
+    {                               //this was added to test because that Usestate sublink wasnt working 
+        title: "web dev",                               //this was added to test because that Usestate sublink wasnt working 
+        link:"/catalog/web-development"                               //this was added to test because that Usestate sublink wasnt working 
     },
 ];
 
 
 const Navbar = () => {
     console.log("Printing base url: ",process.env.REACT_APP_BASE_URL);
+
+    {/* Used use Selector hook for destructuring */}
+
     const {token} = useSelector( (state) => state.auth );
     const {user} = useSelector( (state) => state.profile );
     const {totalItems} = useSelector( (state) => state.cart )
     const location = useLocation();
 
-    const [ssubLinks, setSsubLinks]  = useState([]);
+    const [ssubLinks, setSsubLinks]  = useState([]);     //initialised this array for links 
+
+    // ------------ Made a function in which made an API call for fetching data from catergoris api which was passed in an empty array which was 
+    //-------------- initialised in useState above  then  called that function inside a UseEffect hook 
 
     const fetchSublinks = async() => {
         try{
@@ -70,7 +76,7 @@ const Navbar = () => {
                  <li key={index}>
                     {
                         link.title === "Catalog" ? (
-                            <div className='relative flex items-center gap-2 group'>
+                            <div className='relative flex items-center gap-2 group'>  {/*Was given group class to make a div visible on hover */ }
                                 <p>{link.title}</p>
                                 <IoIosArrowDropdownCircle/>
 
@@ -78,8 +84,8 @@ const Navbar = () => {
                                     translate-x-[-50%] translate-y-[80%]
                                  top-[50%]
                                 flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900
-                                opacity-0 transition-all duration-200 group-hover:visible
-                                group-hover:opacity-100 lg:w-[300px]'>
+                                opacity-0 transition-all duration-200 group-hover:visible  
+                        group-hover:opacity-100 lg:w-[300px]'>  {/*will be invisible and will only be visible and opacity-100 while hovering on its group*/}
 
                                 <div className='absolute left-[50%] top-0
                                 translate-x-[80%]
@@ -122,7 +128,7 @@ const Navbar = () => {
         <div className='flex gap-x-4 items-center'>
 
             {
-                user && user?.accountType != "Instructor" && (
+                user && user?.accountType != "Instructor" && (     //&& also used for conditional rendering
                     <Link to="/dashboard/cart" className='relative'>
                         <AiOutlineShoppingCart />
                         {
