@@ -10,7 +10,7 @@ const {
   SENDOTP_API,
   SIGNUP_API,
   LOGIN_API,
-  RESETPASSTOKEN_API,
+  RESETPASSTOKEN_API, 
   RESETPASSWORD_API,
 } = endpoints
 
@@ -84,9 +84,12 @@ export function signUp(
 }
 
 export function login(email, password, navigate) {
+
   return async (dispatch) => {
+
     const toastId = toast.loading("Loading...")
-    dispatch(setLoading(true))
+
+    dispatch(setLoading(true)) 
     try {
       const response = await apiConnector("POST", LOGIN_API, {
         email,
@@ -100,13 +103,19 @@ export function login(email, password, navigate) {
       }
 
       toast.success("Login Successful")
-      dispatch(setToken(response.data.token))
-      const userImage = response.data?.user?.image
+
+      dispatch(setToken(response.data.token))  // this function was defined in slices
+                        
+      const userImage = response.data?.user?.image //Logic of updating user's profile pic if provided else api of icon of first name and last name
         ? response.data.user.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
-      dispatch(setUser({ ...response.data.user, image: userImage }))
-      localStorage.setItem("token", JSON.stringify(response.data.token))
-      navigate("/dashboard/my-profile")
+
+      dispatch(setUser({ ...response.data.user, image: userImage })) //also a slices function
+
+      localStorage.setItem("token", JSON.stringify(response.data.token)) 
+
+      navigate("/dashboard/my-profile") //will go to dashboard route on login 
+
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
       toast.error("Login Failed")
@@ -115,6 +124,21 @@ export function login(email, password, navigate) {
     toast.dismiss(toastId)
   }
 }
+  
+  
+export function logout(navigate) {
+  return (dispatch) => {
+    dispatch(setToken(null))
+    dispatch(setUser(null))
+    dispatch(resetCart())
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    toast.success("Logged Out")
+    navigate("/")
+  }
+}
+  
+// Handler function for FE and BE integration of ResetPasswordToken 
 
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
@@ -141,13 +165,15 @@ export function getPasswordResetToken(email, setEmailSent) {
     dispatch(setLoading(false))
   }
 }
+          
+// Handler function for FE and BE integration of ResetPassword 
 
 export function resetPassword(password, confirmPassword, token, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
-    try {
-      const response = await apiConnector("POST", RESETPASSWORD_API, {
+    try { 
+      const response = await apiConnector("POST", RESETPASSWORD_API, {  // arguments are passed which are "Type of req" , API , parameters
         password,
         confirmPassword,
         token,
@@ -160,7 +186,8 @@ export function resetPassword(password, confirmPassword, token, navigate) {
       }
 
       toast.success("Password Reset Successfully")
-      navigate("/login")
+
+      navigate("/login")  
     } catch (error) {
       console.log("RESETPASSWORD ERROR............", error)
       toast.error("Failed To Reset Password")
@@ -170,14 +197,5 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   }
 }
 
-export function logout(navigate) {
-  return (dispatch) => {
-    dispatch(setToken(null))
-    dispatch(setUser(null))
-    dispatch(resetCart())
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    toast.success("Logged Out")
-    navigate("/")
-  }
-}
+
+
