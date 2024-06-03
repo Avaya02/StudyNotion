@@ -8,8 +8,11 @@ import { sendOtp, signUp } from "../services/operations/authAPI";
 import { useNavigate } from "react-router-dom";
 
 function VerifyEmail() {
-  const [otp, setOtp] = useState("");
+
+  const [otp, setOtp] = useState(""); //Was meant to be made because it was given in npm OtpInput documentation to pass dynamically 
+
   const { signupData, loading } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -61,11 +64,11 @@ function VerifyEmail() {
             A verification code has been sent to you. Enter the code below
           </p>
           <form onSubmit={handleVerifyAndSignup}>
-            <OtpInput
+            <OtpInput    //BELOW ARE THE PRE-DEFINED PROPERTIES OF THIS NPM COMPONENT WHICH WAS IMPORTED FOR OTP BOXES
               value={otp}
               onChange={setOtp}
               numInputs={6}
-              renderInput={(props) => (
+              renderInput={(props) => (   //Dont stress about this property it was just copy pasted from the Package documentation 
                 <input
                   {...props}
                   placeholder="-"

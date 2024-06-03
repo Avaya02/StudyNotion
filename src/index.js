@@ -22,6 +22,7 @@ root.render(
 
   <BrowserRouter>
   <App />
+  <Toaster/>
   </BrowserRouter>
 
   </Provider>

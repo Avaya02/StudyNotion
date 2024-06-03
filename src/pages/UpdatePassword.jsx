@@ -7,10 +7,15 @@ import { Link, useLocation, useNavigate } from "react-router-dom"
 import { resetPassword } from "../services/operations/authAPI"
 
 function UpdatePassword() {
+
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+
+  const dispatch = useDispatch()   // 
+
   const location = useLocation()
+
   const { loading } = useSelector((state) => state.auth)
+
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
@@ -21,26 +26,39 @@ function UpdatePassword() {
 
   const { password, confirmPassword } = formData
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e) => {      //SAVING      e.target refers to the input element that triggered the event.
+                                         // e.target.name is the name attribute of the input element.
+                                          // e.target.value is the current value of the input element.
     setFormData((prevData) => ({
-      ...prevData,
+
+      ...prevData,                //The function returns a new state object using the spread operator ...prevData.
+      // This ensures that all the existing properties of prevData are copied to the new state object.
+
       [e.target.name]: e.target.value,
     }))
   }
 
   const handleOnSubmit = (e) => {
     e.preventDefault()
-    const token = location.pathname.split("/").at(-1)
+
+    const token = location.pathname.split("/").at(-1)  //using useLocation hook, we accessed the pathname and split it in
+                                                    // an array through "/" and accessed the last element using -1
+
     dispatch(resetPassword(password, confirmPassword, token, navigate))
   }
 
   return (
+
     <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
+
       {loading ? (
+
         <div className="spinner"></div>
       ) : (
         <div className="max-w-[500px] p-4 lg:p-8">
+
           <h1 className="text-[1.875rem] font-semibold leading-[2.375rem] text-richblack-5">
+
             Choose new password
           </h1>
           <p className="my-4 text-[1.125rem] leading-[1.625rem] text-richblack-100">
@@ -53,18 +71,23 @@ function UpdatePassword() {
               </p>
               <input
                 required
-                type={showPassword ? "text" : "password"}
+
+                type={showPassword ? "text" : "password"}  //FOR shOW PASSWORD EYE 
+
                 name="password"
                 value={password}
                 onChange={handleOnChange}
                 placeholder="Enter Password"
                 className="form-style w-full !pr-10"
               />
+
+              {/* FOR SHOW PASSWORD EYE ICON (conditional rendering*/}
+
               <span
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => setShowPassword((prev) => !prev)} //Basically this functions means on clicking this will toggle its previous state
                 className="absolute right-3 top-[38px] z-[10] cursor-pointer"
               >
-                {showPassword ? (
+                {showPassword ? (   
                   <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                 ) : (
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
@@ -73,8 +96,9 @@ function UpdatePassword() {
             </label>
             <label className="relative mt-3 block">
               <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-                Confirm New Password <sup className="text-pink-200">*</sup>
+                Confirm New Password  <sup className="text-pink-200">*</sup>
               </p>
+              
               <input
                 required
                 type={showConfirmPassword ? "text" : "password"}

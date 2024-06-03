@@ -56,11 +56,13 @@ function ForgotPassword() {
                 />
               </label>
             )}
+
             <button
               type="submit"
               className="mt-6 w-full rounded-[8px] bg-yellow-50 py-[12px] px-[12px] font-medium text-richblack-900"
             >
-              {!emailSent ? "Submit" : "Resend Email"}
+            
+              {!emailSent ? "Submit" : "Resend Email"}  {/*Will show Submit text if email isnt sent and Resent if sent*/}
             </button>
           </form>
           <div className="mt-6 flex items-center justify-between">

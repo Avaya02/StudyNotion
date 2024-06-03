@@ -124,11 +124,11 @@ const Navbar = () => {
       </nav>
 
 
-        {/* Login/SignUp/Dashboard */}
+        Login/SignUp/Dashboard
         <div className='flex gap-x-4 items-center'>
 
             {
-                user && user?.accountType != "Instructor" && (     //&& also used for conditional rendering
+                user && user?.accountType !== "Instructor" && (     //&& also used for conditional rendering
                     <Link to="/dashboard/cart" className='relative'>
                         <AiOutlineShoppingCart />
                         {
@@ -154,13 +154,13 @@ const Navbar = () => {
                 token === null && (
                     <Link to="/signup">
                         <button  className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md'>
-                            Sign Up
+                        dafsfd
                         </button>
                     </Link>
                 )
             }
             {
-                token !== null && <ProfileDropDown />
+                token !== null && <ProfileDropDown/>
             }
             
         </div>
