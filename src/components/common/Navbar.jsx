@@ -26,11 +26,11 @@ const subLinks = [                               //this was added to test becaus
 const Navbar = () => {
     console.log("Printing base url: ",process.env.REACT_APP_BASE_URL);
 
-    {/* Used use Selector hook for destructuring */}
+    /* Used use Selector hook for destructuring */
 
     const {token} = useSelector( (state) => state.auth );
     const {user} = useSelector( (state) => state.profile );
-    const {totalItems} = useSelector( (state) => state.cart )
+    const {totalItems} = useSelector( (state) => state.cart ); 
     const location = useLocation();
 
     const [ssubLinks, setSsubLinks]  = useState([]);     //initialised this array for links 
@@ -55,7 +55,7 @@ const Navbar = () => {
     },[] )
 
 
-
+   
     const matchRoute = (route) => {
         return matchPath({path:route}, location.pathname);
     }
@@ -65,7 +65,7 @@ const Navbar = () => {
       <div className='flex w-11/12 max-w-maxContent items-center justify-between'>
         {/* Image */}
       <Link to="/">
-        <img src={logo} width={160} height={42} loading='lazy'/>
+        <img src={logo} width={160} height={42} loading='lazy' alt=''/>
       </Link>
 
       {/* Nav Links */}
@@ -150,15 +150,15 @@ const Navbar = () => {
                     </Link>
                 )
             }
-            {
-                token === null && (
+            {/* {
+                token === null && ( */}
                     <Link to="/signup">
                         <button  className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md'>
-                        dafsfd
+                       SignUp
                         </button>
                     </Link>
-                )
-            }
+                {/* )
+            } */}
             {
                 token !== null && <ProfileDropDown/>
             }
