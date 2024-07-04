@@ -10,11 +10,11 @@ const ContactUsForm = () => {
     const {
         register,
         handleSubmit,
-        reset,
+        reset,    //it is a predefined function
         formState: {errors, isSubmitSuccessful}
     } = useForm();
 
-    const submitContactForm = async(data) => {
+    const submitContactForm = async(data) => {   //This function is for APi call on submit form 
         console.log("Logging Data" , data);
         try{
             setLoading(true);
@@ -31,7 +31,7 @@ const ContactUsForm = () => {
 
     useEffect( () => {
         if(isSubmitSuccessful) {
-            reset({
+            reset({      //reset is a predefined function in the useForm hook
                 email:"",
                 firstname:"",
                 lastname:"",
@@ -39,11 +39,13 @@ const ContactUsForm = () => {
                 phoneNo:"",
             })
         }
-    },[reset, isSubmitSuccessful] );
+    },[reset, isSubmitSuccessful] );     //Yeh functions call hone pe useEffect trigger hoga 
 
 
   return (
-    <form onSubmit={handleSubmit(submitContactForm)}>
+    <form onSubmit={handleSubmit(submitContactForm)}>  
+    {/*handleSubmit: This is a function provided by the react-hook-form library. It is used to handle the form submission. handleSubmit takes a function (in this case, submitContactForm)
+     and wraps it in a way that handles form validation and error handling.*/}
 
     <div className='flex flex-col gap-14'>
             <div className='flex gap-5'>
@@ -56,7 +58,14 @@ const ContactUsForm = () => {
                         id='firstname'
                         placeholder='Enter first name'
                         className='text-black'
-                        {...register("firstname", {required:true})}
+                        {...register("firstname", {required:true})}    //Explained below
+
+         //                    {...register("firstname", {required:true})}
+         // This is a function call to register which is a function provided by react-hook-form library 
+         //it registers the input field with the form and provides validation rules
+         
+         //"firstname"  : This is the name of input field 
+         //{required:true}  : this is the validation rule  
                     />
                     {
                         errors.firstname && (
