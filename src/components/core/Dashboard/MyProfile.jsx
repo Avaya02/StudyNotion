@@ -26,7 +26,7 @@ const MyProfile = () => {
                     <p> {user?.email}</p>
                 </div>
             </div>
-            <IconBtn
+            <IconBtn   //on clicking edit button it'll navigate to Settings 
                 text="Edit"
                 onclick={() => {
                     navigate("/dashboard/settings")
@@ -49,6 +49,43 @@ const MyProfile = () => {
         </div>
 
         {/* section 3 */}
+        <div>
+            <div>
+                <p>Personal Details</p>
+                <IconBtn
+                text="Edit"
+                onclick={() => {
+                    navigate("/dashboard/settings")
+                }} />
+            </div>
+            <div>
+                <div>
+                    <p>First Name</p>
+                    <p>{user?.firstName}</p>
+                </div>
+                <div>
+                    <p>Email</p>
+                    <p>{user?.email}</p>
+                </div>
+                <div>
+                    <p>Gender</p>
+                    <p>{user?.additionalDetails?.gender ?? "Add Gender"}</p>
+                </div>
+                <div>
+                    <p>Last Name</p>
+                    <p>{user?.lastName}</p>
+                </div>
+                <div>
+                    <p>Phone Number</p>
+                    <p>{user?.additionalDetails?.contactNumber ?? "Add Contact Number"}</p>
+                </div>
+                <div>
+                    <p>Date of Birth</p>
+                    <p>{user?.additionalDetails?.dateOfBirth ?? "Add Date of Birth"}</p>
+                </div>
+            </div>
+        </div>
+
         
       
     </div>
