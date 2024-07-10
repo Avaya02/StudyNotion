@@ -141,25 +141,25 @@ const Navbar = () => {
                     </Link>
                 )
             }
-            {/* {
-                token === null && ( */}
+            {
+                token === null && (
                     <Link to="/login">
                         <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md'>
                             Log in
                         </button>
                     </Link>
-                {/* )
-            } */}
-            {/* {
-                token === null && ( */}
+                )
+            }
+            {
+                token === null && (
                     <Link to="/signup">
                         <button  className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md'>
                        SignUp
                         </button>
                     </Link>
 
-                {/* )
-            } */}
+                )
+            }
             
             {
                 token !== null && <ProfileDropDown/>
