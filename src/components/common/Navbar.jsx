@@ -38,14 +38,24 @@ const Navbar = () => {
     // ------------ Made a function in which made an API call for fetching data from catergoris api which was passed in an empty array which was 
     //-------------- initialised in useState above  then  called that function inside a UseEffect hook 
 
+    // const fetchSublinks = async() => {
+    //     try{
+    //         const result = await apiConnector("GET", categories.CATEGORIES_API);
+    //         console.log("Printing Sublinks result:" , result);
+    //         setSsubLinks(result.data.data);
+    //     }
+    //     catch(error) {
+    //         console.log("Could not fetch the category list");
+    //     }
+    // }
+
     const fetchSublinks = async() => {
-        try{
+        try {
             const result = await apiConnector("GET", categories.CATEGORIES_API);
-            console.log("Printing Sublinks result:" , result);
+            console.log("Printing Sublinks result:", result);
             setSsubLinks(result.data.data);
-        }
-        catch(error) {
-            console.log("Could not fetch the category list");
+        } catch (error) {
+            console.error("Error fetching category list:", error.response ? error.response.data : error.message);
         }
     }
 
@@ -56,7 +66,7 @@ const Navbar = () => {
 
 
    
-    const matchRoute = (route) => {
+    const matchRoute = (route) => {  //DOUBT 
         return matchPath({path:route}, location.pathname);
     }
 
@@ -128,7 +138,7 @@ const Navbar = () => {
         <div className='flex gap-x-4 items-center'>
 
             {
-                user && user?.accountType !== "Instructor" && (     //&& also used for conditional rendering
+                user && user?.accountType != "Instructor" && (     //&& also used for conditional rendering
                     <Link to="/dashboard/cart" className='relative'>
                         <AiOutlineShoppingCart />
                         {
@@ -162,8 +172,11 @@ const Navbar = () => {
             }
             
             {
-                token !== null && <ProfileDropDown/>
+                 token !== null && (
+                    <ProfileDropDown/>
+                 )
             }
+            
             
         </div>
 

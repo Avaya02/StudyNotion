@@ -42,7 +42,7 @@ exports.showAllCategories = async(req,res) =>{
         res.status(200).json({
             success : true,
             message : "All Category return successfully",
-            allTags,
+           allCategory,
         })
 
     }
