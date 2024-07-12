@@ -13,6 +13,8 @@ import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import Contact from "./pages/Contact"
 import MyProfile from "./components/core/Dashboard/MyProfile"
 import Dashboard from "./pages/Dashboard";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+import Error from "./pages/Error"
 
 
 function App() {
@@ -78,7 +80,7 @@ function App() {
         <Route path="/contact" element={<Contact/>}/>
 
 <Route 
-      element={
+      element={   // //In this part we have nested routes and parent route is private which means only authenticated users can access nested routes
         <PrivateRoute>
           <Dashboard />
          </PrivateRoute>
@@ -86,10 +88,11 @@ function App() {
     >
       <Route path="dashboard/my-profile" element={<MyProfile />} />
       {/* <Route path="dashboard/settings" element={<Setting />} /> */}
+      <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>}/>
 
     </Route>
 
-        
+        <Route path="*" element={<Error/>}/>
 
 
     </Routes>

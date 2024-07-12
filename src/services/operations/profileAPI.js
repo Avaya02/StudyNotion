@@ -4,6 +4,8 @@ import { setLoading, setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiconnector"
 import { profileEndpoints } from "../apis"
 import { logout } from "./authAPI"
+ 
+//imported profile EndPoints object defined in Apis which contains backend api routes and destructured the object to get endpoints
 
 const { GET_USER_DETAILS_API, GET_USER_ENROLLED_COURSES_API } = profileEndpoints
 
