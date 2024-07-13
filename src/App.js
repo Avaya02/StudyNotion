@@ -15,6 +15,8 @@ import MyProfile from "./components/core/Dashboard/MyProfile"
 import Dashboard from "./pages/Dashboard";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import Error from "./pages/Error"
+import Cart from "./components/core/Dashboard/Cart";
+import Settings from "./components/core/Dashboard/Settings"
 
 
 function App() {
@@ -87,7 +89,8 @@ function App() {
       }
     >
       <Route path="dashboard/my-profile" element={<MyProfile />} />
-      {/* <Route path="dashboard/settings" element={<Setting />} /> */}
+      <Route path="dashboard/settings" element={<Settings />} />
+      <Route path="dashboard/cart" element={<Cart/>} />   {/*In Cart folder , Index.js in defined and exported as Cart only*/}
       <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>}/>
 
     </Route>

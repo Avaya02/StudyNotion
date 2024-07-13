@@ -10,9 +10,9 @@ const EnrolledCourses = () => {
     const [enrolledCourses, setEnrolledCourses] = useState(null);
 
 
-    const getEnrolledCourses = async() => {
+    const getEnrolledCourses = async() => {  //Made Api function call and passed the function name in useEffect hook 
         try{
-            const response = await getUserEnrolledCourses(token);
+            const response = await getUserEnrolledCourses(token);  //was imported from services 
             setEnrolledCourses(response);
         }
         catch(error) {
@@ -32,7 +32,7 @@ const EnrolledCourses = () => {
         {
             !enrolledCourses ? (<div>
                 Loading...
-            </div>)
+            </div>)   //below logic is for if enrolled courses exist but user hasnt enrolled in any course yet 
             : !enrolledCourses.length ? (<p>You have not enrolled in any course yet</p>)
             : (
                 <div>
@@ -44,7 +44,7 @@ const EnrolledCourses = () => {
                     {/* Cards shure hote h ab */}
                     {
                         enrolledCourses.map((course,index)=> (
-                            <div>
+                            <div key={index}>
                                 <div>
                                     <img  src={course.thumbnail}/>
                                     <div>
@@ -58,8 +58,13 @@ const EnrolledCourses = () => {
                                 </div>
 
                                 <div>
+                                {/* for now just assume this data is coming no need to stress about and test, it'll be cleared later by sir*/}
+
                                     <p>Progress: {course.progressPercentage || 0}%</p>
-                                    <ProgressBar
+
+                                    <ProgressBar 
+                                  
+                                     //these are its attributes
                                         completed={course.progressPercentage || 0}
                                         height='8px'
                                         isLabelVisible={false}
