@@ -23,7 +23,7 @@ const Dashboard = () => {
 
 
 
-    if(profileLoading || authLoading) {
+    if(profileLoading || authLoading) {   //To render loading text if either of this is true
         return (
             <div className='mt-10'>
                 Loading...
@@ -33,11 +33,11 @@ const Dashboard = () => {
 
 
   return (
-    <div className='relative flex min-h-[calc(100vh-3.5rem)] bg-richblack-400'>
+    <div className='relative flex min-h-[calc(100vh-3.5rem)]'>
         <Sidebar />
-        <div className='h-[calc(100vh-3.5rem)] overflow-auto'>
+        <div className='h-[calc(100vh-3.5rem)] flex-1 overflow-auto'>
             <div className='mx-auto w-11/12 max-w-[1000px] py-10'>
-                <Outlet />
+                <Outlet /> 
             </div>
         </div>
     </div>
