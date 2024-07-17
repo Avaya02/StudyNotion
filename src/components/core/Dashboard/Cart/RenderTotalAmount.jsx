@@ -4,7 +4,7 @@ import IconBtn from '../../../common/IconBtn';
 
 const RenderTotalAmount = () => {
 
-    const {total, cart} = useSelector((state) => state.cart);
+    const {total, cart} = useSelector((state) => state.cart); //was fetched in cart from local storage 
 
 
     const handleBuyCourse = () => {

@@ -16,18 +16,23 @@ export default function ProfileDropdown() {
 
   useOnClickOutside(ref, () => setOpen(false))
 
-  if (!user) return null
+
+  if (!user) return null  // if user isnt fetched return null 
+
 
   return (
     <button className="relative" onClick={() => setOpen(true)}>
       <div className="flex items-center gap-x-1">
         <img
-          src={user?.image}
+          src={user?.image}   //used current state of user to access its properties
           alt={`profile-${user?.firstName}`}
           className="aspect-square w-[30px] rounded-full object-cover"
         />
         <AiOutlineCaretDown className="text-sm text-richblack-100" />
       </div>
+
+      {/*DOUBT IN BELOW CODE*/}
+
       {open && (
         <div
           onClick={(e) => e.stopPropagation()}

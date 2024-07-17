@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit"
 import { toast } from "react-hot-toast"
 
 const initialState = {
-  cart: localStorage.getItem("cart")
+  cart: localStorage.getItem("cart")     //Fetched cart naam ki item from Local storage if it comes then parsed it, else make cart an empty array
     ? JSON.parse(localStorage.getItem("cart"))
     : [],
+
   total: localStorage.getItem("total")
     ? JSON.parse(localStorage.getItem("total"))
     : 0,
+    
   totalItems: localStorage.getItem("totalItems")
     ? JSON.parse(localStorage.getItem("totalItems"))
     : 0,
