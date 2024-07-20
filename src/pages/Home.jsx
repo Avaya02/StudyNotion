@@ -182,7 +182,7 @@ const Home = () => {
 
                 <TimelineSection />
 
-              {/* <LearningLanguageSection/> */}
+              <LearningLanguageSection/>
 
             </div>
 
