@@ -4,26 +4,26 @@ const RequirementField = ({name, label, register, errors, setValue, getValues}) 
     const [requirement, setRequirement] = useState("");
     const [requirementList, setRequirementList] = useState([]);
 
-
-    useEffect(()=> {
+ 
+    useEffect(()=> {               //doubt
         register(name, {
             required:true,
             // validate: (value) => value.length > 0
         })
     },[])
 
-    useEffect(()=> {
+    useEffect(()=> {          //DOUBT
         setValue(name, requirementList);
     },[requirementList])
 
-    const handleAddRequirement = () => {
-        if(requirement) {
+    const handleAddRequirement = () => {  
+        if(requirement) {   
             setRequirementList([...requirementList, requirement]);
             //setRequirement("");
         }
     }
 
-    const handleRemoveRequirement = (index) => {
+    const handleRemoveRequirement = (index) => {    //current list ki copy create kardega in new variable and usme element splice kardenge and then 
         const updatedRequirementList = [...requirementList];
         updatedRequirementList.splice(index, 1);
         setRequirementList(updatedRequirementList);
@@ -38,7 +38,7 @@ const RequirementField = ({name, label, register, errors, setValue, getValues}) 
                 type='text'
                 id={name}
                 value={requirement}
-                onChange={(e) => setRequirement(e.target.value)}
+                onChange={(e) => setRequirement(e.target.value)}   //
                 className='w-full'
             />
             <button
@@ -50,7 +50,7 @@ const RequirementField = ({name, label, register, errors, setValue, getValues}) 
         </div>
 
         {
-            requirementList.length > 0 && (
+            requirementList.length > 0 && (   //As soon as length exceeds 0 we have to show it below the input tag so we mapped it 
                 <ul>
                     {
                         requirementList.map((requirement, index) => (
@@ -58,7 +58,7 @@ const RequirementField = ({name, label, register, errors, setValue, getValues}) 
                                 <span>{requirement}</span>
                                 <button
                                 type='button'
-                                onClick={() => handleRemoveRequirement(index)}
+                                onClick={() => handleRemoveRequirement(index)}   //for clear button below requirements 
                                 className='text-xs text-pure-greys-300'>
                                     clear
                                 </button>

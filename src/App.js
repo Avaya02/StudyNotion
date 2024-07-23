@@ -102,19 +102,21 @@ function App() {
       <Route path="dashboard/settings" element={<Settings />} />
       
 
-      {
-        user?.ACCOUNT_TYPE === ACCOUNT_TYPE.STUDENT && (
-          <>
-      <Route path="dashboard/cart" element={<Cart/>} />   {/*In Cart folder , Index.js in defined and exported as Cart only*/}
-      <Route path="dashboard/enrolled-courses" element={<EnrolledCourses/>}/>
 
+      {
+        user?.accountType === ACCOUNT_TYPE.STUDENT && (
+          <>
+          <Route path="dashboard/cart" element={<Cart />} />
+          <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
           </>
         )
       }
+
       {
-        user?.ACCOUNT_TYPE === ACCOUNT_TYPE.INSTRUCTOR && (
+        user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
           <>
-            <Route path="dashboard/add-course" element={<AddCourse/>}/>
+          <Route path="dashboard/add-course" element={<AddCourse />} />
+          
           </>
         )
       }

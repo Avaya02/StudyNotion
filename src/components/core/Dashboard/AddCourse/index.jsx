@@ -1,6 +1,6 @@
 import RenderSteps from "./RenderSteps"
 
-export default function AddCourse() {
+const  AddCourse = ()=> {
     return (
         <>
             <div className="text-white">
@@ -27,3 +27,4 @@ export default function AddCourse() {
         </>
     )
 }
+export default AddCourse
