@@ -24,19 +24,20 @@ const CourseInformationForm = () => {
     const {token} = useSelector((state)=>state.auth);
     const {course, editCourse} = useSelector((state)=>state.course);
     const [loading, setLoading] = useState(false);
-    const [courseCategories, setCourseCategories] = useState([]);
+    const [courseCategories, setCourseCategories] = useState([]); //array for categories dropdown 
 
     useEffect(()=> {
         const getCategories = async() => {
             setLoading(true);
             const categories = await fetchCourseCategories();
-            if(categories.length > 0) {
+            console.log(categories);
+            if(categories.length > 0) {   //if categories are fetched update the array which was defined to store categories 
                 setCourseCategories(categories);
             }
             setLoading(false);
         }
 
-        if(editCourse) {
+        if(editCourse) {            //relook
             setValue("courseTitle", course.courseName);
             setValue("courseShortDesc", course.courseDescription);
             setValue("coursePrice", course.price);
@@ -175,18 +176,18 @@ const CourseInformationForm = () => {
             }
         </div>
 
-        <div className='relative'>
+        <div className='relative'>   {/*To overlap rupee icon*/}
             <label htmlFor='coursePrice'>Course Price<sup>*</sup></label>
             <input
                 id='coursePrice'
                 placeholder='Enter Course Price'
                 {...register("coursePrice", {
                     required:true,
-                    valueAsNumber:true
+                    valueAsNumber:true   //takes only input in Numbers
                 })}
                 className='w-full'
             />
-            <HiOutlineCurrencyRupee  className='absolute top-1/2 text-richblack-400'/>
+            <HiOutlineCurrencyRupee  className='absolute top-1/2 text-richblack-400'/>  {/*To overlap rupee icon*/}
             {
                 errors.coursePrice && (
                     <span>Course Price is Required**</span>
@@ -218,6 +219,8 @@ const CourseInformationForm = () => {
                 </span>
             )}
         </div>
+
+        {/* For creating tags such as LinkedIn tags which get added to top on selecting through dropdown*/}
 
         {/* create a custom component for handling tags input */}
         {/* <ChipInput
@@ -267,7 +270,7 @@ const CourseInformationForm = () => {
             {
                 editCourse && (
                     <button
-                    onClick={() => dispatch(setStep(2))}
+                    onClick={() => dispatch(setStep(2))}   //set step function is defined in courseSlice---it will dispatch action of setting it to  globally
                     className='flex items-center gap-x-2 bg-richblack-300'
                     >
                         Continue Without Saving
