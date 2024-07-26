@@ -4,7 +4,8 @@ exports.createCategory= async (req,res) =>{
     try{
         const { name, description} = req.body;
 
-        if(!name || !description){
+        // if(!name || !description)
+        if(!name){
             return res.status(400)({
                 success :false,
                 message : "All fields are required",
@@ -16,6 +17,12 @@ exports.createCategory= async (req,res) =>{
             name : name,
             description : description,
                 
+         });
+         console.log(categoryDetails);
+         return res.status(200).json({
+          success : true,
+          message : "Categories create Successfully",
+
          });
 
     }
@@ -32,7 +39,7 @@ exports.createCategory= async (req,res) =>{
 
 exports.showAllCategories = async(req,res) =>{
     try{
-        const allCategory = await Category.find({} , {name : true , description : true});     //DOUBT---->The empty object {} as the first argument 
+        const allCategory = await Category.find({} );     //DOUBT---->The empty object {} as the first argument 
         //means it's not applying any filters to the query, so it will return all documents in the collection.
 
         // {name: true, description: true}: This part specifies the projection for the query. Projection in MongoDB determines which fields to include or exclude
