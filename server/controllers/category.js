@@ -6,7 +6,7 @@ exports.createCategory= async (req,res) =>{
 
         // if(!name || !description)
         if(!name){
-            return res.status(400)({
+            return res.status(400).json({
                 success :false,
                 message : "All fields are required",
             })

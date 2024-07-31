@@ -14,7 +14,7 @@ exports.auth = async (req , res ,next)=>{
 
         //if token missing then return response 
         if(!token) {
-            return res.status(400).json({
+            return res.status(401).json({
                 success : false,
                 message : "Token is missing",
             })
@@ -50,7 +50,7 @@ exports.auth = async (req , res ,next)=>{
 //isStudent
 exports.isStudent = async(req , res ,next) => {
     try{
-        if(req.user.accountTye !== "Student") {
+        if(req.user.role !== "Student") {
             return res.status(401).json({
                 success : false,
                 message : "This is a protected routes for student only",
@@ -73,7 +73,8 @@ exports.isStudent = async(req , res ,next) => {
 
 exports.isInstructor = async(req , res ,next) => {
     try{
-        if(req.user.accountTye !== "Instructor") {
+        console.log(req.user.role);
+        if(req.user.role !== "Instructor") {
             return res.status(401).json({
                 success : false,
                 message : "This is a protected routes for instructors only",
@@ -95,7 +96,7 @@ exports.isInstructor = async(req , res ,next) => {
 //isAdmin
 exports.isAdmin = async(req , res ,next) => {
     try{
-        if(req.user.accountTye !== "Admin") {
+        if(req.user.role !== "Admin") {
             return res.status(401).json({
                 success : false,
                 message : "This is a protected routes for Admins only",

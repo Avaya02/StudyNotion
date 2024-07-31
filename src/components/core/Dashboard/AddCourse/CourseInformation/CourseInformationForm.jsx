@@ -36,10 +36,21 @@ export default function CourseInformationForm() {
     const getCategories = async () => {
       setLoading(true)
       const categories = await fetchCourseCategories()
-      if (categories.length > 0) {
-        // console.log("categories", categories)
-        setCourseCategories(categories)
-      }
+      // if (categories.length > 0) {
+      //   // console.log("categories", categories)
+      //   setCourseCategories(categories)
+      // }
+            
+      //Uppper was babbar version with errror, this one is GPT version
+      // if (Array.isArray(categories) && categories.length > 0) {
+      //   setCourseCategories(categories)
+      // } else {
+      //   setCourseCategories([]) // Ensure courseCategories is an empty array if no categories are returned
+      // }
+      setCourseCategories(categories) ;
+      
+
+
       setLoading(false)
     }
     // if form is in edit mode
