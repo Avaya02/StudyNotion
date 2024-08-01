@@ -1,15 +1,26 @@
-const { json } = require("express");
 const Course = require("../models/Course");
-
+const Category = require("../models/Category");
 const User = require("../models/User");
-const uploadImagetoCloudinary = require("../utils/imageUploader");
+const { uploadImageToCloudinary } = require("../utils/imageUploader");
+const mongoose = require("mongoose");
 
 //create course handler
 
 exports.createCourse = async (req, res) => {
   try {
-    const { courseName, courseDescription, whatWillYouLearn, price, tag } =
-      req.body;
+
+   
+// Get all required fields from request body
+let {
+    courseName,
+    courseDescription,
+    whatYouWillLearn,
+    price,
+    tag,
+    category,
+    status,
+    instructions,
+} = req.body;
 
     // get thumbnail
     const thumbnail = req.files.thumbnailImage;
@@ -19,10 +30,11 @@ exports.createCourse = async (req, res) => {
     if (
       !courseName ||
       !courseDescription ||
-      !whatWillYouLearn ||
+      !whatYouWillLearn ||
       !price ||
       !tag ||
-      !thumbnail
+      !thumbnail ||
+      !category
     ) {
       return res.status(400).json({
         success: false,
@@ -32,7 +44,11 @@ exports.createCourse = async (req, res) => {
 
     // check for instructor
     const userId = req.user.id;
-    const instructorDetails = await User.findById({ userId });
+
+    // const instructorDetails = await User.findById({ userId });
+    const instructorDetails = await User.findById(userId, {
+        accountType: "Instructor",
+    });
 
     // TODO : VERIFY THAT userId and Instructor id are same or different ?
 
@@ -43,15 +59,33 @@ exports.createCourse = async (req, res) => {
       });
     }
 
-    //check given tag is valid or not
-    const tagDetails = await User.findById(tag); //becoz in COurse Schema tag was passed as an ID only not a data
-
-    if (!tagDetails) {
-      return res.status(404).json({
-        success: false,
-        message: "Tag details not found",
-      });
+      // Convert category to ObjectId if it is not already
+      if (!mongoose.Types.ObjectId.isValid(category)) {
+        return res.status(400).json({
+            success: false,
+            message: "Invalid Category ID",
+        });
     }
+
+    // //check given tag is valid or not
+    console.log(category);
+    const categoryDetails = await Category.findById(category);
+    console.log(categoryDetails);
+		if (!categoryDetails) {
+			return res.status(404).json({
+				success: false,
+				message: "Category Details Not Found",
+			});
+		}
+
+    // const tagDetails = await User.findById(tag); //becoz in COurse Schema tag was passed as an ID only not a data
+
+    // if (!tagDetails) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Tag details not found",
+    //   });
+    // }
     //upload image to cloudinary
     const thumbnailImage = await uploadImagetoCloudinary(
       thumbnail,
@@ -63,10 +97,13 @@ exports.createCourse = async (req, res) => {
       courseName,
       courseDescription,
       instructor: instructorDetails._id,
-      whatWillYouLearn,
+      whatWillYouLearn : whatYouWillLearn,
       price,
-      tag: tagDetails._id,
+      tag: tag,
+      category : categoryDetails._id,
       thumbnail: thumbnailImage.secure_url,
+      status : status,
+      instructions : instructions,
     });
     //add the new course to the user Schema of intructor
     await User.findByIdAndUpdate(

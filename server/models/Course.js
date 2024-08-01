@@ -1,6 +1,6 @@
 const  mongoose = require("mongoose")
 
-const courseSchema = mongoose.Schema({
+const coursesSchema = new mongoose.Schema({
     courseName :{
         type : String,
     },
@@ -55,4 +55,13 @@ const courseSchema = mongoose.Schema({
       ref: "User",
     },
   ],
+  instructions: {
+		type: [String],
+	},
+	status: {
+		type: String,
+		enum: ["Draft", "Published"],
+	},
 })
+
+module.exports = mongoose.model("Course",coursesSchema);
