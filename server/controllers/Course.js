@@ -16,7 +16,7 @@ let {
     courseDescription,
     whatYouWillLearn,
     price,
-    tag,
+    // tag,
     category,
     status,
     instructions,
@@ -32,9 +32,10 @@ let {
       !courseDescription ||
       !whatYouWillLearn ||
       !price ||
-      !tag ||
+      // !tag ||
       !thumbnail ||
-      !category
+      !category  ||
+      !instructions
     ) {
       return res.status(400).json({
         success: false,
@@ -60,12 +61,12 @@ let {
     }
 
       // Convert category to ObjectId if it is not already
-      if (!mongoose.Types.ObjectId.isValid(category)) {
-        return res.status(400).json({
-            success: false,
-            message: "Invalid Category ID",
-        });
-    }
+    //   if (!mongoose.Types.ObjectId.isValid(category)) {
+    //     return res.status(400).json({
+    //         success: false,
+    //         message: "Invalid Category ID",
+    //     });
+    // }
 
     // //check given tag is valid or not
     console.log(category);
@@ -87,7 +88,7 @@ let {
     //   });
     // }
     //upload image to cloudinary
-    const thumbnailImage = await uploadImagetoCloudinary(
+    const thumbnailImage = await uploadImageToCloudinary(
       thumbnail,
       process.env.FOLDER_NAME
     );
@@ -99,7 +100,7 @@ let {
       instructor: instructorDetails._id,
       whatWillYouLearn : whatYouWillLearn,
       price,
-      tag: tag,
+      // tag: tag,
       category : categoryDetails._id,
       thumbnail: thumbnailImage.secure_url,
       status : status,
@@ -108,21 +109,34 @@ let {
     //add the new course to the user Schema of intructor
     await User.findByIdAndUpdate(
       //DOUBT IN THIS FUNCTIONS
-      { id: instructorDetails._id }, //DOUBT IN THIS FUNCTIONS
+      { _id: instructorDetails._id }, //DOUBT IN THIS FUNCTIONS
       {
         //DOUBT IN THIS FUNCTIONS
         $push: {
           //DOUBT IN THIS FUNCTIONS
-          courses: newCourse._id, //DOUBT IN THIS FUNCTIONS
+          courses: newCourse._id, //will push new coursw which was created above's id in the courses of UserSchema
         }, //DOUBT IN THIS FUNCTIONS
       },
       { new: true }
     );
 
-    //update Tag schema : TODO : HW'
+    //update Category  schema : TODO : HW'
+    // add new course to Categories 
+    await User.findByIdAndUpdate(
+      {
+        _id : categoryDetails._id
+      },
+      {
+				$push: {
+					courses: newCourse._id, // will push new coursw which was created above's id in the courses of UserSchema
+				},
+			},
+			{ new: true }
+    );
 
     return res.status(200).json({
       success: true,
+      data : newCourse,
       message: "Course created successfully",
     });
   } catch (error) {
