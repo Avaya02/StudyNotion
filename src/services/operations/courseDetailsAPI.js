@@ -102,7 +102,7 @@ export const addCourseDetails = async (data, token) => {
     console.log("CREATE COURSE API ERROR............", error)
     toast.error(error.message)
   }
-  toast.dismiss(toastId)
+  toast.dismiss(toastId);
   return result
 }
 
