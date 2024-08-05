@@ -10,9 +10,8 @@ import SidebarLink from "./SidebarLink"
 
 export default function Sidebar() {
 
-  const { user, loading: profileLoading } = useSelector(
-    (state) => state.profile
-  )
+  const { user, loading: profileLoading } = useSelector( (state) => state.profile)
+  
   const { loading: authLoading } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -46,7 +45,7 @@ export default function Sidebar() {
           })}
         </div>
         
-        <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
+        <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />  {/*For line between Settings and upper dashboard links*/}
         <div className="flex flex-col">
           <SidebarLink
             link={{ name: "Settings", path: "/dashboard/settings" }}

@@ -32,7 +32,8 @@ export default function RenderSteps() {
               className="flex flex-col items-center "
               key={item.id}
             >
-              <button
+              <button   //these are the steps which are displayed on top with dotted line in between
+
                 className={`grid cursor-default aspect-square w-[34px] place-items-center rounded-full border-[1px] ${
                   step === item.id    //conditional css rendering for steps line 
                     ? "border-yellow-50 bg-yellow-900 text-yellow-50"

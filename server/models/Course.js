@@ -26,7 +26,7 @@ const coursesSchema = new mongoose.Schema({
  
   ratingAndReview : [ {
     type : mongoose.Schema.Types.ObjectId,
-    ref : "RatingAnd Review",
+    ref : "RatingAndReview",
   }
   ],
 
@@ -38,10 +38,11 @@ const coursesSchema = new mongoose.Schema({
     type : String,
   },
 
-  // tag :{
-  //   type : mongoose.Schema.Types.ObjectId,
-  //   ref : "Tag",
-  // },
+  tag :{
+    type : [String], //becoz it stores array of Strings
+    required : true,
+    // ref : "Tag",
+  },
 
   category: {
     type: mongoose.Schema.Types.ObjectId,
@@ -56,7 +57,7 @@ const coursesSchema = new mongoose.Schema({
     },
   ],
   instructions: {
-		type: [String],
+		type: [String], //becoz it stores array of Strings
 	},
 	status: {
 		type: String,

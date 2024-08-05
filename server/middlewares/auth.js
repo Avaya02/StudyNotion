@@ -20,7 +20,9 @@ exports.auth = async (req, res, next) => {
           });
         }
         //verify the token
-        
+         
+        // Akshat and Himanshu's shitty code  
+
         // console.log(token);
         // const decode = jwt.verify(token, process.env.JWT_SECRET);
         // console.log("Decoded token", decode);

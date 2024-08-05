@@ -79,7 +79,9 @@ const CourseBuilderForm = () => {
     //if everything is good
     dispatch(setStep(3));
   }
-
+ 
+   
+  // 
   const handleChangeEditSectionName = (sectionId, sectionName) => {
     if(editSectionName === sectionId ){
       cancelEdit();

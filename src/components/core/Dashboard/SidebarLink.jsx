@@ -9,7 +9,7 @@ export default function SidebarLink({ link, iconName }) {
   const location = useLocation()
   const dispatch = useDispatch()
 
-  const matchRoute = (route) => {  //DOUBT 
+  const matchRoute = (route) => {  //DOUBT    //Matchroute is a function profovied by React-router-dom
     return matchPath({ path: route }, location.pathname)
   }
 

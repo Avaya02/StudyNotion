@@ -8,6 +8,7 @@ import { login } from "../../../services/operations/authAPI"
 function LoginForm() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,7 +16,7 @@ function LoginForm() {
 
   const [showPassword, setShowPassword] = useState(false)
 
-  const { email, password } = formData
+  const { email, password } = formData  //destructuring from state variable
 
   const handleOnChange = (e) => {
     setFormData((prevData) => ({
@@ -42,7 +43,11 @@ function LoginForm() {
           required
           type="text"
           name="email"
-          value={email}
+          value={email}   //these values will be passed at the time of submit
+  //value={email}: This binds the input field's value to the email state variable. The value of the input field will always reflect the current state of email.
+  // onChange={handleOnChange}: This handler updates the email state variable whenever the user types into the input field.
+  // It ensures the state stays in sync with the input field.
+        
           onChange={handleOnChange}
           placeholder="Enter email address"
           style={{
@@ -59,7 +64,7 @@ function LoginForm() {
           required
           type={showPassword ? "text" : "password"}
           name="password"
-          value={password}
+          value={password}   //these values will be passed at the time of submit
           onChange={handleOnChange}
           placeholder="Enter Password"
           style={{

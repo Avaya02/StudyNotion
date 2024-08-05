@@ -13,6 +13,8 @@ const {
   RESETPASSTOKEN_API, 
   RESETPASSWORD_API,
 } = endpoints
+ 
+//in every function loading is shown before API call
 
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
@@ -88,9 +90,11 @@ export function login(email, password, navigate) {
 
   return async (dispatch) => {
 
-    const toastId = toast.loading("Loading...")
+    const toastId = toast.loading("Loading...")  
 
-    dispatch(setLoading(true)) 
+    dispatch(setLoading(true))   //shows loading
+    //API CALL
+    
     try {
       const response = await apiConnector("POST", LOGIN_API, {
         email,
