@@ -106,14 +106,16 @@ const SubSectionModal = ({
         formData.append("description", data.lectureDesc);
         formData.append("video", data.lectureVideo);
         setLoading(true);
-        //API CALL
+
+
+        //--------------API CALL--defined in courseDetails API 
         const result = await createSubSection(formData, token);
 
         if(result) {
             //TODO: check for updation
             dispatch(setCourse(result))
         }
-        setModalData(null);
+        setModalData(null);  //to close modal
         setLoading(false);
 
     }
@@ -124,8 +126,12 @@ const SubSectionModal = ({
       
         <div>
             <div>
+
+            {/*These 3 flag values were passed as props, here is the significance*/}
+
                 <p>{view && "Viewing"} {add && "Adding"} {edit && "Editing"} Lecture</p>
-                <button onClick={() => (!loading ? setModalData(null): {})}>
+
+                <button onClick={() => (!loading ? setModalData(null): {})}> {/*In order to make sure Cross page is only done when noting in loading*/}
                     <RxCross1 />
                 </button>
             </div>
