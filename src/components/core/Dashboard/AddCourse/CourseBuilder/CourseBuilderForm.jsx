@@ -8,7 +8,7 @@ import {BiRightArrow} from "react-icons/bi"
 import { setCourse, setEditCourse, setStep } from '../../../../../slices/courseSlice';
 import { toast } from 'react-hot-toast';
 import { createSection, updateSection } from '../../../../../services/operations/courseDetailsAPI';
-// import NestedView from './NestedView';
+import NestedView from './NestedView';
 
 const CourseBuilderForm = () => {
 
@@ -19,9 +19,9 @@ const CourseBuilderForm = () => {
   const {token} = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log("UPDATED");
-  }, [course])
+  // useEffect(() => {
+  //   console.log("UPDATED");
+  // }, [course])
 
 
 
@@ -130,9 +130,10 @@ const CourseBuilderForm = () => {
         </div>
       </form>
 
-      {/* {course?.courseContent?.length > 0 && (
+ {/*Nested view of added section*/}
+      {course.courseContent.length > 0 && (
         <NestedView handleChangeEditSectionName={handleChangeEditSectionName} />
-      )} */}
+      )}
 
       <div className='flex justify-end gap-x-3 mt-10'>
         <button

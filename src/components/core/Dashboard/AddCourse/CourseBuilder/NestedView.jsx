@@ -64,7 +64,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                     </div>
                     <div className=' flex items-center gap-x-3'>
                         <button
-                        onClick={() => handleChangeEditSectionName(section._id, section.sectionName)}
+                        onClick={() => handleChangeEditSectionName(section._id, section.sectionName)}  //was passed as prop 
                         >
                             <MdEdit />
                         </button>

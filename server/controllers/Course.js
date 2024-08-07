@@ -125,6 +125,7 @@ let {
     await User.findByIdAndUpdate(
       {
         _id : categoryDetails._id
+        // _id : category
       },
       {
 				$push: {
