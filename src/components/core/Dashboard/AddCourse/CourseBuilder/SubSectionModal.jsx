@@ -72,8 +72,10 @@ const SubSectionModal = ({
         }
 
         setLoading(true);
+
         //API call
         const result  = await updateSubSection(formData, token);
+
         if(result) {
             //TODO: same check 
             dispatch(setCourse(result));
@@ -190,4 +192,13 @@ const SubSectionModal = ({
 }
 
 export default SubSectionModal
-//PAANI BREAK - 2min
+ 
+
+
+
+
+    
+
+
+
+
