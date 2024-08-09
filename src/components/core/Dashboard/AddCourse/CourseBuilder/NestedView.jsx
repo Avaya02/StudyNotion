@@ -23,6 +23,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
     const [viewSubSection, setViewSubSection] = useState(null);
     const [editSubSection, setEditSubSection] = useState(null);
 
+    // to keep track of confirmation modal
     const [confirmationModal, setConfirmationModal] = useState(null);
     useEffect(() => {
         console.log("REndering it again");
@@ -124,7 +125,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                   </p>
                 </div>
                 <div
-                  onClick={(e) => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}       //Doubt
                   className="flex items-center gap-x-3"
                 >
                   <button

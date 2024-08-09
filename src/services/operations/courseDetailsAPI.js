@@ -226,9 +226,11 @@ export const deleteSection = async (data, token) => {
       Authorisation: `Bearer ${token}`,
     })
     console.log("DELETE SECTION API RESPONSE............", response)
+
     if (!response?.data?.success) {
       throw new Error("Could Not Delete Section")
     }
+    
     toast.success("Course Section Deleted")
     result = response?.data?.data
   } catch (error) {

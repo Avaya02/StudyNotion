@@ -1,5 +1,6 @@
 const Section = require("../models/Section");
 const Course = require("../models/Course");
+const SubSection = require("../models/SubSection");
 
 // exports.createSection = async (req,res) =>{
 //     try{
@@ -147,7 +148,7 @@ exports.updateSection = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: section,
-			data:course,
+			data:course,   //changed afterwards
 		});
 	} catch (error) {
 		console.error("Error updating section:", error);
@@ -160,21 +161,54 @@ exports.updateSection = async (req, res) => {
 
 exports.deleteSection = async(req,res) =>{
     try{
-        const{sectionId }  = req.params;
+        const{sectionId, courseId }  = req.body;
+        console.log(sectionId, courseId);
 
-        //use find By id and delete
-         await Section.findByIdAndDelete(sectionId);
+        
+
+       await Course.findByIdAndUpdate(courseId, {            //updated while doing frontend
+        $pull: {            //updated while doing frontend
+            courseContent: sectionId,            //updated while doing frontend
+        }
+    })
+    //use find By id and delete
+    const section =   await Section.findByIdAndDelete(sectionId);
+    console.log(sectionId, courseId);
+
+
+       if(!section){
+        return res.status(404).json({
+            success : false,
+            message : "Section not found",
+
+        })
+       }
+       //delete sub section
+		await SubSection.deleteMany({_id: {$in: section.subSection}});
          //TODO : WE ALSO NEED TO DELETE THE ENTRY FROM THE COURSE sCHEMA 
+         await Section.findByIdAndDelete(sectionId);
+
+
+		//find the updated course and return 
+		const course = await Course.findById(courseId).populate({
+			path:"courseContent",
+			populate: {
+				path: "subSection"
+			}
+		})
+		.exec();
 
         return res.status(200).json({
-            success : false,
+            success : true,
             message : "Section deleted successfully",
+            data : course ,  //relook 
         })
 
 
     }
     catch(error){
         return res.status(500).json({
+
             success : false,
             message :"Unable to delete Section, please try again",
             error : error.message,
