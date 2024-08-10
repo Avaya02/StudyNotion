@@ -1,6 +1,6 @@
 const Section = require("../models/Section");
 const SubSection =require("../models/SubSection");
-const {uploadImagetoCloudinary} = require("../utils/imageUploader"); //this is a function so curly braces mai import hoga
+const {uploadImageToCloudinary} = require("../utils/imageUploader"); //this is a function so curly braces mai import hoga
 require("dotenv").config();
 
 
@@ -18,32 +18,40 @@ exports.createSubSection = async (req, res) => {
       }
 
       //upload video to cloudinary 
-      const uploadDetails = await uploadImagetoCloudinary( video , process.env.FOLDER_NAME);
+      const uploadDetails = await uploadImageToCloudinary( video , process.env.FOLDER_NAME);
       //create a Sub-section
 
       const subSectionDetails = await SubSection.create({
         title : title,
         description : description,
-        timeDuration : timeDuration,
+        timeDuration : `${uploadDetails.duration}`,
         videoUrl : uploadDetails.secure_url, //bcoz upar voh function secure url return karega
       });
 
       //update section with this subsection objectId
-      const updatedSectionDetails = await Section.findByIdAndUpdate( {_id : sectionId} ,  //doubt in{ _id : sectionId}
+      const updatedSection= await Section.findByIdAndUpdate( {_id : sectionId} ,  //doubt in{ _id : sectionId}
                                                                       { $push : {
                                                                         subSection : subSectionDetails._id,
                                                                       }},
-                                                                    {new : true} ,);
+                                                                    {new : true} ,).populate("subSection");
 
                    //Section ke andar SubSection ka data id ki form mai store hoga
                    //HW : log updated section here ,after adding populate query 
                    
                    return res.status(200).json({
-                    success : false,
+                    success : true,
                     message : "Sub Section created successfully",
                    });
     }
     catch(error){
+      console.error("Error creating new sub-section:", error)
+
+      return res.status(500).json({
+       
+        success : false,
+      message : "Error while creating subSection",
+      })
+      
 
     }
 }
@@ -52,8 +60,9 @@ exports.createSubSection = async (req, res) => {
 
 exports.updateSubSection = async (req, res) => {
   try {
-    const { sectionId, title, description } = req.body
-    const subSection = await SubSection.findById(sectionId)
+    const { sectionId,subSectionId , title, description } = req.body
+
+    const subSection = await SubSection.findById(subSectionId);
 
     if (!subSection) {
       return res.status(404).json({
@@ -81,8 +90,11 @@ exports.updateSubSection = async (req, res) => {
 
     await subSection.save()
 
+    const updatedSection = await Section.findById(sectionId).populate("subSection");
+
     return res.json({
       success: true,
+      data : updatedSection,
       message: "Section updated successfully",
     })
   } catch (error) {
