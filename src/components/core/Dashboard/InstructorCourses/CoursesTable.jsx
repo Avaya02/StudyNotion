@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table"
 
 import { setCourse, setEditCourse } from "../../../../slices/courseSlice"
+
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
+
 import { useState } from "react"
 import { FaCheck } from "react-icons/fa"
 import { FiEdit2 } from "react-icons/fi"
@@ -128,9 +130,11 @@ export default function CoursesTable({ courses, setCourses }) {
                 <Td className="text-sm font-medium text-richblack-100 ">
                   <button
                     disabled={loading}
-                    onClick={() => {
+
+                    onClick={() => {  // for routing to specific id 
                       navigate(`/dashboard/edit-course/${course._id}`)
                     }}
+                  
                     title="Edit"
                     className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"
                   >

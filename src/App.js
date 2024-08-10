@@ -117,7 +117,7 @@ function App() {
         user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
           <>
           <Route path="dashboard/add-course" element={<AddCourse />} />
-          <Route path="dashbord/my-courses" element ={<MyCourses/>} />
+          <Route path="dashboard/my-courses" element ={<MyCourses/>} />
           
           </>
         )

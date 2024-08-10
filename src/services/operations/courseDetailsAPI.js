@@ -230,7 +230,7 @@ export const deleteSection = async (data, token) => {
     if (!response?.data?.success) {
       throw new Error("Could Not Delete Section")
     }
-    
+
     toast.success("Course Section Deleted")
     result = response?.data?.data
   } catch (error) {
@@ -272,7 +272,7 @@ export const fetchInstructorCourses = async (token) => {
       GET_ALL_INSTRUCTOR_COURSES_API,
       null,
       {
-        Authorization: `Bearer ${token}`,
+        Authorisation: `Bearer ${token}`,
       }
     )
     console.log("INSTRUCTOR COURSES API RESPONSE............", response)
