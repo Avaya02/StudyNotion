@@ -20,6 +20,7 @@ import Cart from "./components/core/Dashboard/Cart";
 import Settings from "./components/core/Dashboard/Settings"
 import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/AddCourse";
+import MyCourses from "./components/core/Dashboard/MyCourses";
 
 
 function App() {
@@ -116,6 +117,7 @@ function App() {
         user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
           <>
           <Route path="dashboard/add-course" element={<AddCourse />} />
+          <Route path="dashbord/my-courses" element ={<MyCourses/>} />
           
           </>
         )
