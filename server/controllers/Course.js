@@ -17,10 +17,10 @@ let {
     courseDescription,
     whatYouWillLearn,
     price,
-    tag : _tag,
+    tag : _tag,            //changed to this afterwards
     category,
     status,
-    instructions : _instructions,
+    instructions : _instructions,   //changed to this afterwards
 } = req.body;
 
     // get thumbnail
@@ -50,8 +50,8 @@ let {
       });
     }
 
-    if (!status || status === undefined) {
-      status = "Draft"
+    if (!status || status === undefined) {              //added afterwards   
+      status = "Draft"             //added afterwards 
     }
 
     // check for instructor
