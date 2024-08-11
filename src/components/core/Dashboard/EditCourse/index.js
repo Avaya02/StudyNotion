@@ -11,13 +11,16 @@ import RenderSteps from "../AddCourse/RenderSteps"
 
 export default function EditCourse() {
   const dispatch = useDispatch()
-  const { courseId } = useParams()
+
+  const { courseId } = useParams() //React router dom hook 
+            //used to extract the courseId parameter from the URL of the current route.
+            
   const { course } = useSelector((state) => state.course)
   const [loading, setLoading] = useState(false)
   const { token } = useSelector((state) => state.auth)
 
-  useEffect(() => {
-    ;(async () => {
+  useEffect(() => {(
+      async () => {
       setLoading(true)
       const result = await getFullDetailsOfCourse(courseId, token)
       if (result?.courseDetails) {

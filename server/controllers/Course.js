@@ -4,6 +4,7 @@ const User = require("../models/User");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const mongoose = require("mongoose");
 const Section = require("../models/Section");
+const SubSection = require("../models/SubSection");
 
 //create course handler
 
@@ -444,7 +445,7 @@ exports.deleteCourse = async (req, res) => {
     const studentsEnrolled = course.studentsEnrolled
 
     for (const studentId of studentsEnrolled) {
-      
+
       await User.findByIdAndUpdate(studentId, {
         $pull: { courses: courseId },
       })
