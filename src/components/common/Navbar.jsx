@@ -17,16 +17,16 @@ import { ACCOUNT_TYPE } from '../../utils/constants'
 
 
 
-const subLinks = [                               //this was added to test because that Usestate sublink wasnt working 
-    {
-        title: "python",                               //this was added to test because that Usestate sublink wasnt working 
-        link:"/catalog/python"                               //this was added to test because that Usestate sublink wasnt working 
-    },                               //this was added to test because that Usestate sublink wasnt working 
-    {                               //this was added to test because that Usestate sublink wasnt working 
-        title: "web dev",                               //this was added to test because that Usestate sublink wasnt working 
-        link:"/catalog/web-development"                               //this was added to test because that Usestate sublink wasnt working 
-    },
-];
+// const subLinks = [                               //this was added to test because that Usestate sublink wasnt working 
+//     {
+//         title: "python",                               //this was added to test because that Usestate sublink wasnt working 
+//         link:"/catalog/python"                               //this was added to test because that Usestate sublink wasnt working 
+//     },                               //this was added to test because that Usestate sublink wasnt working 
+//     {                               //this was added to test because that Usestate sublink wasnt working 
+//         title: "web dev",                               //this was added to test because that Usestate sublink wasnt working 
+//         link:"/catalog/web-development"                               //this was added to test because that Usestate sublink wasnt working 
+//     },
+// ];
 
 
 
@@ -123,18 +123,18 @@ const Navbar = () => {
                           <>
                             {subLinks
                               ?.filter(
-                                (subLink) => subLink?.courses?.length > 0
+                                (Sublinks) => subLinks?.courses?.length > 0
                               )
-                              ?.map((subLink, i) => (
+                              ?.map((subLinks, i) => (
                                 <Link
-                                  to={`/catalog/${subLink.name
+                                  to={`/catalog/${subLinks.name
                                     .split(" ")
                                     .join("-")
                                     .toLowerCase()}`}
                                   className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
                                   key={i}
                                 >
-                                  <p>{subLink.name}</p>
+                                  <p>{subLinks.name}</p>
                                 </Link>
                               ))}
                           </>

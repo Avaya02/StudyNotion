@@ -17,7 +17,7 @@ const Course_Card = ({course, Height}) => {
     
   return (
     <div>
-        <Link to={`/courses/${course._id}`}>
+        <Link to={`/courses/${course._id}`}>  {/*Course on clicking on whole card it'll navigate to the route*/}
             <div>
                 <div>
                     <img 
@@ -28,10 +28,15 @@ const Course_Card = ({course, Height}) => {
                 </div>
                 <div>
                     <p>{course?.courseName}</p>
-                    <p>{course?.instructor?.firstName} {course?.instructor?.lastName} </p>
+                    <p>{course?.instructor?.firstName} {course?.instructor?.lastName} </p> {/*Because instructor in course schema has ref to user , which has first name */}
+                        {/*Also we cannot directly access first name of instructor so we drilled*/}
+
                     <div className='flex gap-x-3'>
+
                         <span>{avgReviewCount || 0}</span>
+
                         <RatingStars Review_Count={avgReviewCount} />
+                        
                         <span>{course?.ratingAndReviews?.length} Ratings</span>
                     </div>
                     <p>{course?.price}</p>
