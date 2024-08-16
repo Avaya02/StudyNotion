@@ -5,26 +5,44 @@ const {mailSender} = require("../utils/mailSender");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
 const { default: mongoose } = require("mongoose");
 
+//This old code was meant for purchasing only a single course at a timee
 
 //Capture the payment and initiate the Razorpay order 
 exports.capturePayment = async(req,res) => {
   
         //get courseId and user id
-        const {course_id} = req.body;
+        // const {course_id} = req.body;
+
+        const{courses} = req.body;
         
         const userId = req.user.id;
         
         //validation
-        //valid courseId
-        if(!course_id){
-            return res.status(404).json({
-                success :false,
-                message : "Please provde valid course Id",
+        if(courses.length ===0){  //for all the courses in the cart
+            return res.json({
+                success : false,
+                message : "Please provide Course id",
             })
         };
+        
+
+   //this was to check only a single course
+        // if(!course_id){
+        //     return res.status(404).json({
+        //         success :false,
+        //         message : "Please provde valid course Id",
+        //     })
+        // };
+
+
 
         //valid courseDetails
-        let course;
+
+        let totalAmount = 0;
+
+        for(const course_id of courses){
+                   
+            let course;
         try{
             course = await Course.findById(course_id);
             if(!course){
@@ -44,7 +62,7 @@ exports.capturePayment = async(req,res) => {
             });
         }
         
-
+           totalAmount += course.price;  //to add prices of all courses
 
     }
     catch(error){
@@ -56,13 +74,16 @@ exports.capturePayment = async(req,res) => {
         
     }
 
+        }
+        
+
     //ORDER CREATE
-    const amount = course.price;
-    const currency = "INR";
+    // const amount = course.price;
+    // const currency = "INR";
 
     const options = {   //its your choice whether to pass them directly in order.create function or store them in a variable and pass it as a parameter
-        amount  : amount * 100,
-        currency,
+        amount  : totalAmount* 100,
+        currency : "INR",
         receipt : Math.random(Date.now()).toString(),
         notes : {
             courseId : course_id,
@@ -76,13 +97,14 @@ exports.capturePayment = async(req,res) => {
         console.log(paymentResponse);
         return res.status(200).json({
             success :true,
+            message: paymentResponse,
             //Why was these all sent in Response 
-            courseName : course.courseName,                   
-             courseDescription : course.courseDescription,
-             thumbnail : course.thumbnail,
-             orderId : paymentResponse.id,
-             currency : paymentResponse.currency,
-             amount : paymentResponse.amount,
+            // courseName : course.courseName,                   
+            //  courseDescription : course.courseDescription,
+            //  thumbnail : course.thumbnail,
+            //  orderId : paymentResponse.id,
+            //  currency : paymentResponse.currency,
+            //  amount : paymentResponse.amount,
         });
     }
     catch(error){
@@ -99,7 +121,7 @@ exports.capturePayment = async(req,res) => {
 
 //verify Signature of Razorpay and server 
 
-exports.verifySignature = async (req,res) =>{
+exports.verifyPayment = async (req,res) =>{ 
     const webhookSecret = "12345678";
 
     const signature = req.headers["x-razorpay-signature"]; //NO NEED TO WORRY ABOUT THIS JUST REMEMBER THIS WAS DONE IN ORDER TO VERIFY SIGNATURE 

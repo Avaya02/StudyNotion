@@ -14,6 +14,7 @@ const CourseSlider = ({ Courses }) => {
     <>
       {
         Courses?.length ? (
+            
           <Swiper
             slidesPerView={1}
             loop={true}
@@ -30,7 +31,7 @@ const CourseSlider = ({ Courses }) => {
               1024: { slidesPerView: 3, }
             }}
           >
-          
+
             {
               Courses?.map((course, index) => (
                 <SwiperSlide key={index}>
