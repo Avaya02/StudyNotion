@@ -4,6 +4,9 @@ const User = require("../models/User");
 const {mailSender} = require("../utils/mailSender");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
 const { default: mongoose } = require("mongoose");
+const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail");
+const crypto = require("crypto");
+
 
 //This old code was meant for purchasing only a single course at a timee
 
@@ -119,7 +122,7 @@ exports.capturePayment = async(req,res) => {
 
 };
 
-//verify the payment
+//verify the payment 
 exports.verifyPayment = async(req, res) => {
     const razorpay_order_id = req.body?.razorpay_order_id;
     const razorpay_payment_id = req.body?.razorpay_payment_id;
@@ -134,13 +137,16 @@ exports.verifyPayment = async(req, res) => {
     }
 
     let body = razorpay_order_id + "|" + razorpay_payment_id;
+
+   
     const expectedSignature = crypto
-        .createHmac("sha256", process.env.RAZORPAY_SECRET)
+        .createHmac("sha256", process.env.RAZORPAY_SECRET)  
         .update(body.toString())
         .digest("hex");
-
+        
+        //The main verification 
         if(expectedSignature === razorpay_signature) {
-            //enroll karwao student ko
+            //Enroll the student 
             await enrollStudents(courses, userId, res);
             //return res
             return res.status(200).json({success:true, message:"Payment Verified"});
@@ -169,7 +175,9 @@ const enrollStudents = async(courses, userId, res) => {
             return res.status(500).json({success:false,message:"Course not Found"});
         }
 
-        //find the student and add the course to their list of enrolledCOurses
+
+        //find the student and add the course to their list of enrolledCOurses Because every student has a list of his enrolled courses as given in User Schema
+
         const enrolledStudent = await User.findByIdAndUpdate(userId,
             {$push:{
                 courses: courseId,
@@ -185,7 +193,9 @@ const enrollStudents = async(courses, userId, res) => {
         }
         catch(error) {
             console.log(error);
-            return res.status(500).json({success:false, message:error.message});
+            return res.status(500).json
+            ({success:false,
+             message:error.message});
         }
     }
 

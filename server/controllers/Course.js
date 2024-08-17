@@ -127,6 +127,17 @@ let {
     );
 
     //update Category  schema : TODO : HW'
+    await Category.findByIdAndUpdate(
+      {
+        _id : categoryDetails._id
+       },
+       {
+        $push : {
+          courses : newCourse._id,
+        }
+       },
+       { new: true },
+    )
     // add new course to Categories 
     await User.findByIdAndUpdate(
       {

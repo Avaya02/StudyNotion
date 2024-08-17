@@ -1,85 +1,70 @@
-import React, { useEffect } from 'react'
-import logo from "../../assets/Logo/Logo-Full-Light.png"
-import { Link, matchPath } from 'react-router-dom'
-import {NavbarLinks} from "../../data/navbar-links"
-import { useLocation } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { AiOutlineMenu, AiOutlineShoppingCart} from "react-icons/ai"
-import ProfileDropDown from '../core/Auth/ProfileDropDown'
-import { apiConnector } from '../../services/apiconnector'
-import { categories } from '../../services/apis'
-import { useState } from 'react'
-import { BsChevronDown } from "react-icons/bs"
-import { ACCOUNT_TYPE } from '../../utils/constants'
+import React, { useEffect } from "react";
+import logo from "../../assets/Logo/Logo-Full-Light.png";
+import { Link, matchPath } from "react-router-dom";
+import { NavbarLinks } from "../../data/navbar-links";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai";
+import ProfileDropDown from "../core/Auth/ProfileDropDown";
+import { apiConnector } from "../../services/apiconnector";
+import { categories } from "../../services/apis";
+import { useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
+import { ACCOUNT_TYPE } from "../../utils/constants";
 
-
-
-
-
-
-// const subLinks = [                               //this was added to test because that Usestate sublink wasnt working 
+// const subLinks = [                               //this was added to test because that Usestate sublink wasnt working
 //     {
-//         title: "python",                               //this was added to test because that Usestate sublink wasnt working 
-//         link:"/catalog/python"                               //this was added to test because that Usestate sublink wasnt working 
-//     },                               //this was added to test because that Usestate sublink wasnt working 
-//     {                               //this was added to test because that Usestate sublink wasnt working 
-//         title: "web dev",                               //this was added to test because that Usestate sublink wasnt working 
-//         link:"/catalog/web-development"                               //this was added to test because that Usestate sublink wasnt working 
+//         title: "python",                               //this was added to test because that Usestate sublink wasnt working
+//         link:"/catalog/python"                               //this was added to test because that Usestate sublink wasnt working
+//     },                               //this was added to test because that Usestate sublink wasnt working
+//     {                               //this was added to test because that Usestate sublink wasnt working
+//         title: "web dev",                               //this was added to test because that Usestate sublink wasnt working
+//         link:"/catalog/web-development"                               //this was added to test because that Usestate sublink wasnt working
 //     },
 // ];
 
-
-
-
 const Navbar = () => {
-    
+  /* Used use Selector hook for destructuring */
 
-    /* Used use Selector hook for destructuring */
+  const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
+  const { totalItems } = useSelector((state) => state.cart);
+  const location = useLocation();
 
-    const {token} = useSelector( (state) => state.auth );
-    const {user} = useSelector( (state) => state.profile );
-    const {totalItems} = useSelector( (state) => state.cart ); 
-    const location = useLocation();
+  const [subLinks, setSubLinks] = useState([]); //initialised this array for links
+  const [loading, setLoading] = useState(false);
 
-    const [subLinks, setSubLinks] = useState([])   //initialised this array for links 
-  const [loading, setLoading] = useState(false)    
-   
+  // ------------ Made a function in which made an API call for fetching data from catergoris api which was passed in an empty array which was
+  //-------------- initialised in useState above  then  called that function inside a UseEffect hook
 
+  // const fetchSublinks = async() => {
+  //     try{
+  //         const result = await apiConnector("GET", categories.CATEGORIES_API);
+  //         console.log("Printing Sublinks result:" , result);
+  //         setSsubLinks(result.data.data);
+  //     }
+  //     catch(error) {
+  //         console.log("Could not fetch the category list");
+  //     }
+  // }
 
-    // ------------ Made a function in which made an API call for fetching data from catergoris api which was passed in an empty array which was 
-    //-------------- initialised in useState above  then  called that function inside a UseEffect hook 
-
-    // const fetchSublinks = async() => {
-    //     try{
-    //         const result = await apiConnector("GET", categories.CATEGORIES_API);
-    //         console.log("Printing Sublinks result:" , result);
-    //         setSsubLinks(result.data.data);
-    //     }
-    //     catch(error) {
-    //         console.log("Could not fetch the category list");
-    //     }
-    // }
-
-
-    useEffect(() => {
-    ;(async () => {
-      setLoading(true)
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
       try {
-        const res = await apiConnector("GET", categories.CATEGORIES_API)
-        setSubLinks(res.data.data)
+        const res = await apiConnector("GET", categories.CATEGORIES_API);
+        setSubLinks(res.data.allCategory);
       } catch (error) {
-        console.log("Could not fetch Categories.", error)
+        console.log("Could not fetch Categories.", error);
       }
-      setLoading(false)
-    })()
-  }, [])
+      setLoading(false);
+    })();
+  }, []);
 
-
-
-   
-    const matchRoute = (route) => {  //DOUBT 
-        return matchPath({path:route}, location.pathname);
-    }
+  const matchRoute = (route) => {
+    //DOUBT
+    return matchPath({ path: route }, location.pathname);
+  };
 
   return (
     <div
@@ -105,38 +90,54 @@ const Navbar = () => {
                           ? "text-yellow-25"
                           : "text-richblack-25"
                       }`}
-                    >   {/*Was given group class to make a div visible on hover */ }
-
+                    >
+                      {" "}
+                      {/*Was given group class to make a div visible on hover */}
                       <p>{link.title}</p>
                       <BsChevronDown />
-                      <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150
-                       group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">  {/*will be invisible and will only be visible and opacity-100 while hovering on its group*/}
-                       
-                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5">
-
-                        </div>
-
-                        {  loading ? (
+                      <div
+                        className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150
+                       group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]"
+                      >
+                        {" "}
+                        {/*will be invisible and will only be visible and opacity-100 while hovering on its group*/}
+                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
+                        {loading ? (
                           <p className="text-center">Loading...</p>
-                     //   ) : subLinks.length ? (        was giving error without ?.
-                        ) : subLinks?.length ? (
+                        ) : //   ) : subLinks.length ? (        was giving error without ?.
+                        /* ) : subLinks?.length ? ( */
+                        subLinks?.length ? (
                           <>
-                            {subLinks
+                            {/* {subLinks
                               ?.filter(
-                                (Sublinks) => subLinks?.courses?.length > 0
+                                (subLink) => subLink?.courses?.length > 0
                               )
-                              ?.map((subLinks, i) => (
+                              ?.map((subLink, i) => (
                                 <Link
-                                  to={`/catalog/${subLinks.name
+                                  to={`/catalog/${subLink.name
                                     .split(" ")
                                     .join("-")
                                     .toLowerCase()}`}
                                   className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
                                   key={i}
                                 >
-                                  <p>{subLinks.name}</p>
+                                  <p>{subLink.name}</p>
                                 </Link>
-                              ))}
+                              ))} */}
+                             {
+                              subLinks.map((item)=> (
+                                <Link to={`/catalog/${item.name}`}
+                                 className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
+                                 >
+                                <p>{
+                                  item.name
+                                 }</p>
+                                </Link>
+                               
+                              )
+                              )
+                             }
+
                           </>
                         ) : (
                           <p className="text-center">No Courses Found</p>
@@ -145,7 +146,9 @@ const Navbar = () => {
                     </div>
                   </>
                 ) : (
-                  <Link to={link?.path}>    {/* in false case , it will be linked to element's path or link's path which is in the data array*/}
+                  <Link to={link?.path}>
+                    {" "}
+                    {/* in false case , it will be linked to element's path or link's path which is in the data array*/}
                     <p
                       className={`${
                         matchRoute(link?.path)
@@ -187,15 +190,14 @@ const Navbar = () => {
               </button>
             </Link>
           )}
-          {token !== null && <ProfileDropDown/>}
+          {token !== null && <ProfileDropDown />}
         </div>
         <button className="mr-4 md:hidden">
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-
-export default Navbar
+export default Navbar;

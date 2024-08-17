@@ -87,7 +87,8 @@ export default function PublishCourse() {
         {/* Next Prev Button */}
         <div className="ml-auto flex max-w-max items-center gap-x-4">
           <button
-            disabled={loading}
+            disabled={loading}   //------when loading is false: The buttons are enabled, and users can click them.
+            //----- When loading is true: The buttons are disabled, preventing any interaction until the loading process is complete
             type="button"
             onClick={goBack}
             className="flex cursor-pointer items-center gap-x-2 rounded-md bg-richblack-300 py-[8px] px-[20px] font-semibold text-richblack-900"

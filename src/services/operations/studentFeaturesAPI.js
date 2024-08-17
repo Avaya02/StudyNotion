@@ -8,7 +8,7 @@ import { resetCart } from "../../slices/cartSlice";
 
 const {COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API} = studentEndpoints;
 
-function loadScript(src) {
+function loadScript(src) {      //will be used in buyCourse function (Given in documentatio)
     return new Promise((resolve) => {
         const script = document.createElement("script");
         script.src = src;
@@ -28,14 +28,14 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
     const toastId = toast.loading("Loading...");
     try{
         //load the script
-        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");  
 
         if(!res) {
             toast.error("RazorPay SDK failed to load");
             return;
         }
 
-        //initiate the order
+        //initiate the order  (for calling capture payment)
         const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API, 
                                 {courses},
                                 {
@@ -59,6 +59,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
                 name:`${userDetails.firstName}`,
                 email:userDetails.email
             },
+            //Successfull hone par we have to send a mail
             handler: function(response) {
                 //send successful wala mail
                 sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
@@ -81,6 +82,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
     }
     toast.dismiss(toastId);
 }
+
 
 async function sendPaymentSuccessEmail(response, amount, token) {
     try{
