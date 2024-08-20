@@ -5,6 +5,7 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const mongoose = require("mongoose");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
+const { convertSecondsToDuration } = require("../utils/secToDuration")
 
 //create course handler
 
@@ -209,71 +210,66 @@ exports.getAllCourses = async (req, res) => {
 
 exports.getCourseDetails = async (req, res) => {
   try {
-    const { courseId } = req.body;
-
-    //find course details
-
-    const courseDetails = await Course.find({ _id: courseId })
+    const { courseId } = req.body
+    const courseDetails = await Course.findOne({
+      _id: courseId,
+    })
       .populate({
         path: "instructor", //populated the intructor field which has ref to user  and also poplate the additionalDetails in user
         populate: {
-          //NESTED POPULATE
           path: "additionalDetails",
         },
       })
       .populate("category")
       .populate("ratingAndReviews")
       .populate({
-        //this is basically like populate drilling
+         //this is basically like populate drilling
         path: "courseContent", //courseContent is ref to Sections and Sections is ref to subSections
         populate: {
           path: "subSection",
           select: "-videoUrl",
         },
       })
-      .exec();
+      .exec()
 
     if (!courseDetails) {
       return res.status(400).json({
         success: false,
-        message: `Could not find the course with ${courseId}`,
-      });
+        message: `Could not find course with id: ${courseId}`,
+      })
     }
 
-     // if (courseDetails.status === "Draft") {
+    // if (courseDetails.status === "Draft") {
     //   return res.status(403).json({
     //     success: false,
     //     message: `Accessing a draft course is forbidden`,
     //   });
     // }
 
-    let totalDurationInSeconds = 0                                  //Added afterwards
-    courseDetails.courseContent.forEach((content) => {                         //Added afterwards
-      content.subSection.forEach((subSection) => {                         //Added afterwards
-        const timeDurationInSeconds = parseInt(subSection.timeDuration)                         //Added afterwards
-        totalDurationInSeconds += timeDurationInSeconds                         //Added afterwards
-      })                         //Added afterwards
-    })                         //Added afterwards
+    let totalDurationInSeconds = 0
+    courseDetails.courseContent.forEach((content) => {
+      content.subSection.forEach((subSection) => {
+        const timeDurationInSeconds = parseInt(subSection.timeDuration)
+        totalDurationInSeconds += timeDurationInSeconds
+      })
+    })
 
-    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)                         //Added afterwards
-
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
 
     return res.status(200).json({
-    success: true,
+      success: true,
       data: {
         courseDetails,
         totalDuration,
       },
-    });
+    })
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: "Error while getting All course details",
-    });
+      message: error.message,
+    })
   }
-};
-
-
+}
 
 // Edit Course Details
 exports.editCourse = async (req, res) => {

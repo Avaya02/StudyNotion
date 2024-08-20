@@ -1,4 +1,7 @@
 const Category = require("../models/Category");
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max)
+  }
 
 exports.createCategory= async (req,res) =>{
     try{
@@ -100,15 +103,15 @@ exports.categoryPageDetails = async (req, res) => {
       })
 
       
-    //   let differentCategory = await Category.findOne(
-    //     categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
-    //       ._id
-    //   )
-    //     .populate({
-    //       path: "courses",
-    //       match: { status: "Published" },
-    //     })
-    //     .exec()
+      let differentCategory = await Category.findOne(
+        categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]  //getRandomInt function is defined on top
+          ._id
+      )
+        .populate({
+          path: "courses",
+          match: { status: "Published" },
+        })
+        .exec()
 
 
 
@@ -134,8 +137,8 @@ exports.categoryPageDetails = async (req, res) => {
           success: true,
           data: {
             selectedCategory,
-            // differentCategory,
-            // mostSellingCourses,
+            differentCategory,
+            mostSellingCourses,
  },
 })
     } catch (error) {

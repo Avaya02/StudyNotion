@@ -21,6 +21,7 @@ const Catalog = () => {
     useEffect(()=> {
         const getCategories = async() => {
             const res = await apiConnector("GET", categories.CATEGORIES_API);
+
             const category_id = res.data.allCategory.filter((value) => value.name === catalogName)[0]._id;
             
             // res?.data?.allCategory?.filter((ct) => ct.name.split(" ").join("-").toLowerCase() === catalogName)[0]._id;
@@ -30,41 +31,7 @@ const Catalog = () => {
         getCategories();
     },[catalogName]);
 
-    // useEffect(()=> {
-    //     const getCategories = async() => {
-    //         try {
-    //             const res = await apiConnector("GET", categories.CATEGORIES_API);
-    //             console.log("Full API Response: ", res);
     
-    //             // Ensure res.data exists before accessing res.data.data
-    //             if (!res || !res.data || !res.data.data) {
-    //                 throw new Error("Unexpected API response format");
-    //             }
-    
-    //             console.log("Categories fetched: ", res.data.data);
-    
-    //             const filteredCategories = res.data.data.filter((ct) => {
-    //                 const transformedName = ct.name.split(" ").join("-").toLowerCase();
-    //                 console.log("Comparing:", transformedName, "with", catalogName);
-    //                 return transformedName === catalogName;
-    //             });
-    
-    //             if (filteredCategories.length === 0) {
-    //                 console.error("No matching category found for:", catalogName);
-    //                 return;
-    //             }
-    
-    //             const category_id = filteredCategories[0]._id;
-    //             console.log("CategoryId", category_id); // Debug
-    //             setCategoryId(category_id);
-    //         } catch (error) {
-    //             console.error("Error fetching categories: ", error);
-    //         }
-    //     }
-    //     getCategories();
-    // }, [catalogName]);
-    
-
     useEffect(() => {
         const getCategoryDetails = async() => {
             try{
@@ -118,7 +85,7 @@ const Catalog = () => {
     
           {/* Section 1 */}
           <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-            <div className="section_heading">Courses to get you started</div>
+            <div className="section_heading text-richblack-25">Courses to get you started</div>
             <div className="my-4 flex border-b border-b-richblack-600 text-sm">
               <p
                 className={`px-4 py-2 ${
@@ -149,7 +116,7 @@ const Catalog = () => {
           </div>
           {/* Section 2 */}
           <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-            <div className="section_heading">
+            <div className="section_heading text-richblack-25">
               Top courses in {catalogPageData?.data?.differentCategory?.name}
             </div>
             <div className="py-8">
@@ -161,9 +128,9 @@ const Catalog = () => {
     
           {/* Section 3 */}
           <div className=" mx-auto box-content w-full max-w-maxContentTab px-4 py-12 lg:max-w-maxContent">
-            <div className="section_heading">Frequently Bought</div>
+            <div className="section_heading text-richblack-25">Frequently Bought</div>
             <div className="py-8">
-              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 ">
                 {catalogPageData?.data?.mostSellingCourses
                   ?.slice(0, 4)
                   .map((course, i) => (
