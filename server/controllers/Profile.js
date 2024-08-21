@@ -5,17 +5,18 @@ const {uploadImageToCloudinary } = require("../utils/imageUploader");
 
 exports.updateProfile = async(req,res) => {
     try{
-        const {dateOfBirth ="" , about = "" , contactNumber , gender } = req.body ;
+        const {
+          firstName = "",
+      lastName = "",
+          dateOfBirth ="" ,
+           about = "" ,
+            contactNumber ="" ,
+             gender= "", } = req.body ;
         //get userId
 
         const id = req.user.id ;  //becuz auth middle ware mai payload ke andar decode pass kraya tha  which also refers to Auth controller line 229 
 
-        if(!dateOfBirth || !gender || !id){
-            return res.status(404).json({
-                success : false,
-                message : "All fields required",
-            });
-        }
+        
 
         //FIND PROFILE
 
@@ -28,31 +29,43 @@ exports.updateProfile = async(req,res) => {
          const profileId = userDetails.additionalDetails;  //BECOZ USER SCHEMA MAI additional details data hai jisme Profile ka ref de rekha basically ref
          //  it'll be referring to its ID
 
-         const profileDetails = await Profile.findById(profileId);
+         const profile = await Profile.findById(profileId);
+
+        //  const user = await User.findByIdAndUpdate(id, {
+        //   firstName,
+        //   lastName,
+        // })
+        // await user.save()
+    
 
          //UPDATE PROFILE
-         profileDetails.dateOfBirth = dateOfBirth;
-         profileDetails.contactNumber = contactNumber;
-         profileDetails.about = about ;
-         profileDetails.gender = gender;
-         await profileDetails.save();
+        // Update the profile fields
+    profile.dateOfBirth = dateOfBirth
+    profile.about = about
+    profile.contactNumber = contactNumber
+    profile.gender = gender
 
-         return res.status(200).json({
-            success : true,
-            message : "Profile updated successfully",
-            profileDetails,
-         })
+    // Save the updated profile
+    await profile.save()
 
-    }
-    catch(error){
-        return res.status(500).json({
-            success :false,
-            message : "Error whilw updating profile, please try again",
-        })
+    // Find the updated user details
+    const updatedUserDetails = await User.findById(id)
+      .populate("additionalDetails")
+      .exec()
 
-    }
+    return res.json({
+      success: true,
+      message: "Profile updated successfully",
+      updatedUserDetails,
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+    })
+  }
 }
-
 exports.deleteAccount = async (req,res) =>{
     try{
         const id = req.user.id;

@@ -1,31 +1,29 @@
-import React from 'react'
-import  {HomePageExplore} from "../../../data/homepage-explore"
-import HighlightText from './HighlightText';
-import { useState } from 'react';
-import CourseCard from "./CourseCard"
-
+import React, { useState } from "react";
+import { HomePageExplore } from "../../../data/homepage-explore";
+import CourseCard from "./CourseCard";
+import HighlightText from "./HighlightText";
 
 const tabsName = [
-    "Free",
-    "New to coding",
-    "Most popular",
-    "Skill paths",
-    "Career paths",
+  "Free",
+  "New to coding",
+  "Most popular",
+  "Skills paths",
+  "Career paths",
 ];
 
 const ExploreMore = () => {
+  const [currentTab, setCurrentTab] = useState(tabsName[0]);
+  const [courses, setCourses] = useState(HomePageExplore[0].courses);
+  const [currentCard, setCurrentCard] = useState(
+    HomePageExplore[0].courses[0].heading
+  );
 
-    const [currentTab, setCurrentTab] = useState(tabsName[0]);
-    const [courses, setCourses] = useState(HomePageExplore[0].courses);
-    const [currentCard, setCurrentCard] = useState(HomePageExplore[0].courses[0].heading)
-
-    const setMyCards = (value) => {
-        setCurrentTab(value);
-        const result = HomePageExplore.filter((course) => course.tag === value);
-        setCourses(result[0].courses);
-        setCurrentCard(result[0].courses[0].heading);
-    }
-
+  const setMyCards = (value) => {
+    setCurrentTab(value);
+    const result = HomePageExplore.filter((course) => course.tag === value);
+    setCourses(result[0].courses);
+    setCurrentCard(result[0].courses[0].heading);
+  };
 
   return (
     <div>
@@ -74,31 +72,7 @@ const ExploreMore = () => {
         })}
       </div>
     </div>
+  );
+};
 
-
-
-      /* <div className='lg:h-[150px]'></div> */
-
-      /* course card ka group */
-
-      /* <div className='absolute flex flex-row gap-10 justify-between w-full'>
-        {
-            courses.map(  (element, index) => {
-                return (
-                    <CourseCard 
-                    key={index}
-                    cardData = {element}
-                    currentCard = {currentCard}
-                    setCurrentCard = {setCurrentCard}
-                    />
-                )
-            } )
-        }
-      </div> */
-
-
-    // </div>
-  )
-}
-
-export default ExploreMore
+export default ExploreMore;
