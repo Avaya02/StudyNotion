@@ -2,7 +2,8 @@ const User = require("../models/User");   //to check user exists
 const otpGenerator = require("otp-generator");
 const OTP = require("../models/OTP");    //to check unique otp 
 const Profile = require("../models/Profile");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt  = require("jsonwebtoken");
 require("dotenv").config();
 
