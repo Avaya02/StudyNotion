@@ -29,7 +29,8 @@ app.use(cookieParser());
 // )
 
 const allowedOrigins = [
-	"https://studynotion-frontend-n970.onrender.com",
+	// "https://studynotion-frontend-n970.onrender.com",
+	"https://study-notion-mocha-xi.vercel.app/",
 	"http://localhost:3000", // for local development
 ];
 
