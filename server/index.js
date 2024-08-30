@@ -24,7 +24,7 @@ app.use(cookieParser());
 app.use(
 	cors({
 		// origin:"https://studynotion-backend-n970.onrender.com",
-		origin : "https://study-notion-mocha-xi.vercel.app/",
+		origin : "https://study-notion-mocha-xi.vercel.app",
 		credentials:true,
 	})
 )
