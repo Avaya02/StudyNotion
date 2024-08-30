@@ -21,12 +21,31 @@ database.dbConnect();
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
+// app.use(
+// 	cors({
+// 		origin:"https://studynotion-backend-n970.onrender.com",
+// 		credentials:true,
+// 	})
+// )
+
+const allowedOrigins = [
+	"https://studynotion-frontend-n970.onrender.com",
+	"http://localhost:3000", // for local development
+];
+
 app.use(
 	cors({
-		origin:"https://studynotion-backend-n970.onrender.com",
-		credentials:true,
+		origin: function (origin, callback) {
+			if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+				callback(null, true);
+			} else {
+				callback(new Error("Not allowed by CORS"));
+			}
+		},
+		credentials: true,
 	})
-)
+);
+
 
 app.use(
 	fileUpload({
