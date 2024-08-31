@@ -23,13 +23,13 @@ const Dashboard = () => {
 
 
 
-    if(profileLoading || authLoading) {   //To render loading text if either of this is true
-        return (
-            <div className='mt-10'>
-                Loading...
-            </div>
-        )
-    }
+if (profileLoading || authLoading) {  
+    return (
+      <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
+        <div className="spinner"></div>
+      </div>
+    )
+  }
 
 
   return (
